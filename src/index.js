@@ -71,12 +71,12 @@ const useStyles = makeStyles({
 	const handleChange = (event) => {
 		console.log(event.target.value,  custName);
 	  setName(event.target.value);
-	  rows.filter( row1 => {
-		 if(row1.customerName.toLowerCase().includes(event.target.value)) {
-			 console.log('row1-->', row1);
-			 return row1;
+	  rows.filter( row => {
+		 if(row.customerName.toLowerCase().includes(event.target.value)) {
+			 console.log('row-->', row);
+			 return row;
 		 }
-		 return row1;
+		 return row;
 	  })
 	};
 
@@ -103,7 +103,7 @@ const useStyles = makeStyles({
 		  <TableBody>
 			{rows.map((row) => (
 			  <StyledTableRow key={row.customerId}>
-              <StyledTableCell align="right" component="th" scope="row">
+              <StyledTableCell component="th" scope="row">
                 {row.customerId}
               </StyledTableCell>
               <StyledTableCell align="right">{row.customerName}</StyledTableCell>
