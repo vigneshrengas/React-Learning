@@ -15,46 +15,48 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
-	  backgroundColor: theme.palette.common.black,
-	  color: theme.palette.common.white,
+		backgroundColor: theme.palette.common.black,
+		color: theme.palette.common.white,
 	},
 	body: {
-	  fontSize: 14,
+		fontSize: 14,
 	},
-  }))(TableCell);
-  
+}))(TableCell);
 
-  const StyledTableRow = withStyles((theme) => ({
+
+const StyledTableRow = withStyles((theme) => ({
 	root: {
-	  '&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
-	  },
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.action.hover,
+		},
 	},
-  }))(TableRow);
+}))(TableRow);
 
 const useStyles = makeStyles({
 	table: {
-	  minWidth: 700,
+		minWidth: 700,
 	},
-  });
-  
-  function createData(customerId, customerName, customerBank, currency) {
-	return { customerId, customerName, customerBank, currency };
-  }
+});
 
-  
-  const rows = [
+let selectedRow= {};
+function createData(customerId, customerName, customerBank, currency) {
+	return { customerId, customerName, customerBank, currency };
+}
+
+
+let rows = [
 	createData(1, 'Ragul', 'ABC Bank', 'INR'),
 	createData(2, 'Vignesh', 'XYZ Bank', 'USD'),
 	createData(3, 'Ragul', 'QWE Bank', 'EUR'),
 	createData(4, 'Vignesh', 'ABC Bank', 'INR'),
 	createData(5, 'Ragul', 'QWE Bank', 'USD'),
-  ];
+];
 
-  
-  export default function BasicTable() {
+let displayRows = rows;
+
+export default function BasicTable() {
 	const classes = useStyles();
-	
+
 	//const [name, setRow] = React.useState('check');
 	const [custName, setName] = React.useState('');
 
@@ -63,65 +65,81 @@ const useStyles = makeStyles({
 	// 	 return console.log(event.target.value, name);
 	//  }
 
-	const edit = (data) => { 
+	const edit = (data) => {
 		// Do whatever you want
-		return console.log( data);
+		selectedRow = data;
+		return console.log(data,selectedRow);
 
 	}
 	const handleChange = (event) => {
-		console.log(event.target.value,  custName);
-	  setName(event.target.value);
-	  rows.filter( row => {
-		 if(row.customerName.toLowerCase().includes(event.target.value)) {
-			 console.log('row-->', row);
-			 return row;
-		 }
-		 return row;
-	  })
+		console.log(event.target.value, custName);
+		setName(event.target.value);
+		const filteredRows = rows.filter(row => {
+			if (row.customerName.toLowerCase().includes(event.target.value)) {
+				console.log('row-->', row);
+				return row;
+			}
+		});
+		displayRows = filteredRows;
+		return;
 	};
+
+	const UpdateCustomerInfo = (data) => {
+		console.log('sele', data);
+	}
 
 	return (
 		<>
-		<form>
-            <FormControl>
-            <InputLabel>Name</InputLabel>
-          <Input value={custName} onChange={handleChange} /> 
-            </FormControl>
-        </form>
+			<form>
+				<FormControl>
+					<InputLabel>Search Name</InputLabel>
+					<Input value={custName} onChange={handleChange} />
+				</FormControl>
+				<br></br>
+				<FormControl>
+					<InputLabel htmlFor="my-input">Customer Name</InputLabel>
+					
+					<Input value={selectedRow ? selectedRow.customerName : ''} id="my-input" aria-describedby="my-helper-text" />
+					<Button variant="contained" color="primary" onChange={UpdateCustomerInfo(selectedRow)}>
+						Update
+					</Button>
+				</FormControl>
+			</form>
+		
 
-	  <TableContainer component={Paper}>
-		<Table className={classes.table} aria-label="customized table">
-		  <TableHead>
-		  <TableRow>
-            <StyledTableCell align="right">Customer Id</StyledTableCell>
-            <StyledTableCell align="right">Customer Name&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Customer Bank&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Currency&nbsp;(g)</StyledTableCell>
-			<StyledTableCell align="left">Button&nbsp;(g)</StyledTableCell>
-          </TableRow>
-		  </TableHead>
-		  <TableBody>
-			{rows.map((row) => (
-			  <StyledTableRow key={row.customerId}>
-              <StyledTableCell component="th" scope="row">
-                {row.customerId}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.customerName}</StyledTableCell>
-              <StyledTableCell align="right">{row.customerBank}</StyledTableCell>
-              <StyledTableCell align="right">{row.currency}</StyledTableCell>
-			<StyledTableCell ><Button onClick={() => edit(row)} variant="outlined" color="primary">Click</Button></StyledTableCell>
-			  </StyledTableRow>
-			))}
-		  </TableBody>
-		</Table>
-	  </TableContainer>
-	  </>
+			<TableContainer component={Paper}>
+				<Table className={classes.table} aria-label="customized table">
+					<TableHead>
+						<TableRow>
+							<StyledTableCell align="right">Customer Id</StyledTableCell>
+							<StyledTableCell align="right">Customer Name&nbsp;</StyledTableCell>
+							<StyledTableCell align="right">Customer Bank&nbsp;</StyledTableCell>
+							<StyledTableCell align="right">Currency&nbsp;</StyledTableCell>
+							<StyledTableCell align="left">Button&nbsp;</StyledTableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{displayRows.map((row) => (
+							<StyledTableRow key={row.customerId}>
+								<StyledTableCell component="th" scope="row">
+									{row.customerId}
+								</StyledTableCell>
+								<StyledTableCell align="right">{row.customerName}</StyledTableCell>
+								<StyledTableCell align="right">{row.customerBank}</StyledTableCell>
+								<StyledTableCell align="right">{row.currency}</StyledTableCell>
+								<StyledTableCell ><Button onClick={() => edit(row)} variant="outlined" color="primary">Click</Button></StyledTableCell>
+							</StyledTableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</>
 	);
-  }
+}
 
 ReactDOM.render(
-    <BasicTable  />,
-  document.getElementById('root')
+	<BasicTable />,
+	document.getElementById('root')
 );
 
 
