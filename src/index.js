@@ -47,9 +47,9 @@ function createData(customerId, customerName, customerBank, currency) {
 let rows = [
 	createData(1, 'Ragul', 'ABC Bank', 'INR'),
 	createData(2, 'Vignesh', 'XYZ Bank', 'USD'),
-	createData(3, 'Ragul', 'QWE Bank', 'EUR'),
+	createData(3, 'Vickky', 'QWE Bank', 'EUR'),
 	createData(4, 'Vignesh', 'ABC Bank', 'INR'),
-	createData(5, 'Ragul', 'QWE Bank', 'USD'),
+	createData(5, 'Ravi', 'QWE Bank', 'USD'),
 ];
 
 let displayRows = rows;
@@ -74,13 +74,24 @@ export default function BasicTable() {
 	const handleChange = (event) => {
 		console.log(event.target.value, custName);
 		setName(event.target.value);
-		const filteredRows = rows.filter(row => {
-			if (row.customerName.toLowerCase().includes(event.target.value)) {
-				console.log('row-->', row);
-				return row;
-			}
-		});
-		displayRows = filteredRows;
+		if ( event.target.value === '' ) {
+			displayRows = rows;
+		} else {
+
+			let returnRow = [];
+			const filteredRows = rows.filter(row => {
+				let rowValues = Object.values(row);
+					rowValues.forEach( (value, index) => {
+					if ( event.target.value!== '' &&
+					typeof(value) !== "number" &&  value.toLowerCase().includes(event.target.value)) {
+						console.log('row->', row);
+						returnRow.push(row);
+						return;
+					} 
+				});
+			});
+			displayRows = returnRow;
+		}
 		return;
 	};
 
@@ -119,8 +130,8 @@ export default function BasicTable() {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{displayRows.map((row) => (
-							<StyledTableRow key={row.customerId}>
+						{displayRows.map((row, index) => (
+							<StyledTableRow key={index} >
 								<StyledTableCell component="th" scope="row">
 									{row.customerId}
 								</StyledTableCell>
