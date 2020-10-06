@@ -47,7 +47,7 @@ function createData(customerId, customerName, customerBank, currency) {
 let rows = [
 	createData(1, 'Ragul', 'ABC Bank', 'INR'),
 	createData(2, 'Vignesh', 'XYZ Bank', 'USD'),
-	createData(3, 'Vickky', 'QWE Bank', 'EUR'),
+	createData(3, 'Vickky', 'QWR Bank', 'EUR'),
 	createData(4, 'Vignesh', 'ABC Bank', 'INR'),
 	createData(5, 'Ravi', 'QWE Bank', 'USD'),
 ];
@@ -79,16 +79,20 @@ export default function BasicTable() {
 		} else {
 
 			let returnRow = [];
-			const filteredRows = rows.filter(row => {
+			const filteredRows = rows.filter((row, index) => {
+				let currentIndex = -1;
 				let rowValues = Object.values(row);
-					rowValues.forEach( (value, index) => {
+					rowValues.forEach( (value) => {
 					if ( event.target.value!== '' &&
-					typeof(value) !== "number" &&  value.toLowerCase().includes(event.target.value)) {
-						console.log('row->', row);
+					typeof(value) !== "number" &&  value.toLowerCase().includes(event.target.value)
+					&& currentIndex !== index) {
+						currentIndex = index;
+						console.log('row->', row,index);
 						returnRow.push(row);
-						return;
+						return true;
 					} 
 				});
+				return;
 			});
 			displayRows = returnRow;
 		}
