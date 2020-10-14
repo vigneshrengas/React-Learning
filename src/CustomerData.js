@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {  withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,27 +20,25 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-
-
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 
 const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
 }))(TableRow);
 
 const useStyles1 = makeStyles((theme) => ({
@@ -51,12 +49,12 @@ const useStyles1 = makeStyles((theme) => ({
 }));
 
 const useStyles = makeStyles((theme) => ({
-	typography: {
-		padding: theme.spacing(2),
-	  },
-	table: {
-		minWidth: 700,
-	},
+  typography: {
+    padding: theme.spacing(2),
+  },
+  table: {
+    minWidth: 700,
+  },
 }));
 
 let selectedRow= {};
@@ -84,7 +82,7 @@ function TablePaginationActions(props) {
   };
 
   return (
-  
+
     <div className={classes.root}>
       <IconButton
         onClick={handleFirstPageButtonClick}
@@ -121,20 +119,25 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(customerId, customerName, customerBank, currency) {
-	return { customerId, customerName, customerBank, currency };
+function createData(id, email, first, last, company, country) {
+  return { id, email, first, last, company, country };
 }
 const rows = [
-	createData(1, 'Ragul', 'ABC Bank', 'INR'),
-	createData(2, 'Vignesh', 'XYZ Bank', 'USD'),
-	createData(3, 'Vickky', 'QWR Bank', 'EUR'),
-	createData(4, 'Vignesh', 'ABC Bank', 'INR'),
-    createData(5, 'Ravi', 'QWE Bank', 'USD'),
-    createData(6, 'Ragul', 'ABC Bank', 'INR'),
-	createData(7, 'Vignesh', 'XYZ Bank', 'USD'),
-	createData(8, 'Vickky', 'QWR Bank', 'EUR'),
-	createData(9, 'Vignesh', 'ABC Bank', 'INR'),
-	createData(10, 'Ravi', 'QWE Bank', 'USD'),
+  createData(10001, 'isidro_von@hotmail.com', 'Torrey', 'Veum', 'Hilll', 'Switzerland'),
+  createData(10002, 'frederique19@hotmail.com', 'Micah', 'Sanford', 'Stokes-Reichel', 'Republic of Korea'),
+  createData(10002, 'fredy54@gmail.com', 'Hollis', 'Swift', 'Rodriguez, Cartwright and Kuhn', 'Tunisia'),
+  createData(10004, 'braxton29@hotmail.com', 'Perry', 'Leffler', 'Sipes', 'Feeney and Hansen', 'Chad'),
+  createData(10005, "turner59@gmail.com", "Janelle", "Hagenes", "Lesch and Daughters", "Swaziland"),
+  createData(10006, "halie47@yahoo.com", "Charity", "Bradtke", "Gorczany-Monahan", "Lebanon"),
+  createData(10007, "loren_yundt@gmail.com", "Dejah", "Kshlerin", "Williamson-Hickle", "Egypt"),
+  createData(10008, "kenton_macejkovic80@hotmail.com", "Ellen", "Schaefer", "Tillman-Harris", "Israel"),
+  createData(10009, "pascale5@yahoo.com", "Sven", "Funk", "Dare Group", "Macao"),
+  createData(10010, "frank34@yahoo.com", "Ryleigh", "Cole", "Zieme and Daughters", "Congo"),
+  createData(10011, "harry65@hotmail.com", "Cooper", "Grimes", "Brakus-Rath", "Reunion"),
+  createData(10012, "kiana.schowalter@gmail.com", "Esteban", "Homenick", "Bode-Botsford", "Guadeloupe"),
+  createData(10013, "josh_batz60@gmail.com", "Lucinda", "Waters", "Ratke LLC", "Lebanon"),
+  createData(10014, "zula36@hotmail.com", "Jarvis", "Grimes", "Durgan, Sporer and Bogan", "Ghana"),
+  createData(10015, "romaine21@gmail.com", "Jordon", "Turcotte", "Green-Haag", "Serbia"),
 ];
 let displayRows = rows;
 
@@ -165,36 +168,36 @@ export default function CustomPaginationActionsTable() {
   const handleChange = (event) => {
     console.log(event.target.value, custName);
     setName(event.target.value);
-    if ( event.target.value === '' ) {
-        displayRows = rows;
+    if (event.target.value === '') {
+      displayRows = rows;
     } else {
 
-        let returnRow = [];
-        const filteredRows = rows.filter((row, index) => {
-            let currentIndex = -1;
-            let rowValues = Object.values(row);
-                rowValues.forEach( (value) => {
-                if ( event.target.value!== '' &&
-                typeof(value) !== "number" &&  value.toLowerCase().includes(event.target.value)
-                && currentIndex !== index) {
-                    currentIndex = index;
-                    console.log('row->', row,index);
-                    returnRow.push(row);
-                    return true;
-                } 
-            });
-            return;
+      let returnRow = [];
+      const filteredRows = rows.filter((row, index) => {
+        let currentIndex = -1;
+        let rowValues = Object.values(row);
+        rowValues.forEach((value) => {
+          if (event.target.value !== '' &&
+            typeof (value) !== "number" && value.toLowerCase().includes(event.target.value)
+            && currentIndex !== index) {
+            currentIndex = index;
+            console.log('row->', row, index);
+            returnRow.push(row);
+            return true;
+          }
         });
-        displayRows = returnRow;
+        return;
+      });
+      displayRows = returnRow;
     }
     return;
-}
+  }
 
-const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
-	console.log(event.customerName);
-	setAnchorEl(event.customerName);
+    console.log(event.first, event.last);
+    setAnchorEl(event.first + " " + event.last + " ");
   };
 
   const handleClose = () => {
@@ -206,86 +209,91 @@ const [anchorEl, setAnchorEl] = React.useState(null);
 
 
   return (
-      <>
-    <form>
-    <FormControl>
-        <InputLabel>Search Name</InputLabel>
-        <Input value={custName} onChange={handleChange} />
-    </FormControl>
-    <br></br>
+    <>
+    <h1 style={{textAlign: 'center'}}>Customer Details</h1>
+      <form>
+        <FormControl>
+          <InputLabel>Search Customer</InputLabel>
+          <Input value={custName} onChange={handleChange} />
+        </FormControl>
+        <br></br>
 
-</form>
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="custom pagination table">
-      <TableHead>
-						<TableRow>
-							<StyledTableCell align="right">Customer Id</StyledTableCell>
-							<StyledTableCell align="right">Customer Name&nbsp;</StyledTableCell>
-							<StyledTableCell align="right">Customer Bank&nbsp;</StyledTableCell>
-							<StyledTableCell align="right">Currency&nbsp;</StyledTableCell>
-							<StyledTableCell align="left">Button&nbsp;</StyledTableCell>
-						</TableRow>
-					</TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? displayRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : displayRows
-          ).map((row, index) => (              
-          
-                <StyledTableRow key={index} >
-								<StyledTableCell component="th" scope="row">
-									{row.customerId}
-								</StyledTableCell>
-								<StyledTableCell align="right">{row.customerName}</StyledTableCell>
-								<StyledTableCell align="right">{row.customerBank}</StyledTableCell>
-								<StyledTableCell align="right">{row.currency}</StyledTableCell>
-								<StyledTableCell ><Button onClick={() => handleClick(row)} variant="outlined" color="primary">Click</Button></StyledTableCell>
-							</StyledTableRow>
-          
-          ))}
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+      </form>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="custom pagination table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">Customer Id</StyledTableCell>
+              <StyledTableCell align="left">Email&nbsp;</StyledTableCell>
+              <StyledTableCell align="left">First Name&nbsp;</StyledTableCell>
+              <StyledTableCell align="left">Last Name&nbsp;</StyledTableCell>
+              <StyledTableCell align="left">Company&nbsp;</StyledTableCell>
+              <StyledTableCell align="left">Country&nbsp;</StyledTableCell>
+              <StyledTableCell align="left">Action&nbsp;</StyledTableCell>
             </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
-    <Popover
-				id={id}
-				open={open}
-				anchorEl={anchorEl}
-				onClose={handleClose}
-				anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'center',
-				}}
-				transformOrigin={{
-				vertical: 'top',
-				horizontal: 'center',
-				}}
-			>
-				<Typography className={classes.typography}>The content of the Popover.{anchorEl}</Typography>
-      		</Popover>
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? displayRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : displayRows
+            ).map((row, index) => (
+
+              <StyledTableRow key={index} >
+                <StyledTableCell component="th" scope="row">
+                  {row.id}
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.email}</StyledTableCell>
+                <StyledTableCell align="left">{row.first}</StyledTableCell>
+                <StyledTableCell align="left">{row.last}</StyledTableCell>
+                <StyledTableCell align="left">{row.company}</StyledTableCell>
+                <StyledTableCell align="left">{row.country}</StyledTableCell>
+                <StyledTableCell ><Button onClick={() => handleClick(row)} variant="outlined" color="primary">Click</Button></StyledTableCell>
+              </StyledTableRow>
+
+            ))}
+
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                colSpan={3}
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: { 'aria-label': 'rows per page' },
+                  native: true,
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right/*  */',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <Typography className={classes.typography}> Processing Customer : {anchorEl}</Typography>
+      </Popover>
 
     </>
   );
