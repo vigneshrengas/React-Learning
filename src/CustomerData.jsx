@@ -6,6 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
+import Grid from '@material-ui/core/Grid';
 
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -31,7 +32,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundGridor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
   body: {
@@ -42,7 +43,7 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles((theme) => ({
   root: {
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundGridor: theme.palette.action.hover,
     },
   },
 }))(TableRow);
@@ -143,7 +144,7 @@ const rows = [
   createData(10007, "loren_yundt@gmail.com", "Dejah", "Kshlerin", "Williamson-Hickle", "Egypt"),
   createData(10008, "kenton_macejkovic80@hotmail.com", "Ellen", "Schaefer", "Tillman-Harris", "Israel"),
   createData(10009, "pascale5@yahoo.com", "Sven", "Funk", "Dare Group", "Macao"),
-  createData(10010, "frank34@yahoo.com", "Ryleigh", "Cole", "Zieme and Daughters", "Congo"),
+  createData(10010, "frank34@yahoo.com", "Ryleigh", "Gride", "Zieme and Daughters", "Congo"),
   createData(10011, "harry65@hotmail.com", "Cooper", "Grimes", "Brakus-Rath", "Reunion"),
   createData(10012, "kiana.schowalter@gmail.com", "Esteban", "Homenick", "Bode-Botsford", "Guadeloupe"),
   createData(10013, "josh_batz60@gmail.com", "Lucinda", "Waters", "Ratke LLC", "Lebanon"),
@@ -225,6 +226,8 @@ export default function CustomPaginationActionsTable() {
   const id = open ? 'simple-popover' : undefined;
   const classes1 = useStyles1();
 
+  const [spacing, setSpacing] = React.useState(2);
+
   return (
     <>
       <h1 style={{ textAlign: 'center' }}>Customer Details</h1>
@@ -239,31 +242,44 @@ export default function CustomPaginationActionsTable() {
             <Typography className={classes.heading}>Input Details</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <TextField id="standard-basic" label="Customer Id" variant="outlined" />&nbsp;
-      <TextField id="filled-basic" label="First Name" variant="outlined" />&nbsp;
-      <TextField id="outlined-basic" label="Last Name" variant="outlined" />&nbsp;
-      <TextField
-              id="fromdate"
-              label="From Date"
-              type="date"
-              defaultValue="2020-05-24"
-              className={classes.textField}
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />&nbsp;
-          <TextField
-              id="todate"
-              label="To Date"
-              type="date"
-              defaultValue="2020-05-24"
-              className={classes.textField}
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            /><br></br>
+            <Grid container spacing={spacing}>
+              <Grid item span={3}>
+                <TextField id="standard-basic" label="Customer Id" variant="outlined" />
+              </Grid>
+              <Grid item>
+                <TextField id="filled-basic" label="First Name" variant="outlined" />
+              </Grid>
+              <Grid item>
+                <TextField id="outlined-basic" label="Last Name" variant="outlined" />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="fromdate"
+                  label="From Date"
+                  type="date"
+                  defaultValue="2020-05-24"
+                  className={classes.textField}
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="todate"
+                  label="To Date"
+                  type="date"
+                  defaultValue="2020-05-24"
+                  className={classes.textField}
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+
             <Button variant="contained" color="primary" onClick={showTableDetails}>
               Search
           </Button>&nbsp;
