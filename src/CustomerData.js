@@ -22,6 +22,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -211,6 +212,40 @@ export default function CustomPaginationActionsTable() {
   return (
     <>
     <h1 style={{textAlign: 'center'}}>Customer Details</h1>
+
+    <form className={classes.root} noValidate autoComplete="off">
+  <TextField id="standard-basic" label="Customer Id" variant="outlined"/>
+  <TextField id="filled-basic" label="First Name" variant="outlined"/>
+  <TextField id="outlined-basic" label="Last Name" variant="outlined" />
+  <TextField
+        id="fromdate"
+        label="From Date"
+        type="date"
+        defaultValue="2020-05-24"
+        className={classes.textField}
+        variant="outlined"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+      <TextField
+        id="todate"
+        label="To Date"
+        type="date"
+        defaultValue="2020-05-24"
+        className={classes.textField}
+        variant="outlined"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+  <Button variant="contained" color="primary">
+        Filter
+      </Button>
+      <Button variant="contained" >
+        Clear
+      </Button>
+</form>
       <form>
         <FormControl>
           <InputLabel>Search Customer</InputLabel>
