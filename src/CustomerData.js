@@ -24,6 +24,11 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -46,6 +51,11 @@ const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
     marginLeft: theme.spacing(2.5),
+    width: '100%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
   },
 }));
 
@@ -58,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let selectedRow= {};
+let selectedRow = {};
 
 
 function TablePaginationActions(props) {
@@ -196,10 +206,16 @@ export default function CustomPaginationActionsTable() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const [showResults, setShowResults] = React.useState(false);
+
+  const showTableDetails = () => setShowResults(true);
+  const hideTableDetails = () => setShowResults(false);
+
   const handleClick = (event) => {
     console.log(event.first, event.last);
     setAnchorEl(event.first + " " + event.last + " ");
   };
+
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -207,129 +223,142 @@ export default function CustomPaginationActionsTable() {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
+  const classes1 = useStyles1();
 
   return (
     <>
-    <h1 style={{textAlign: 'center'}}>Customer Details</h1>
+      <h1 style={{ textAlign: 'center' }}>Customer Details</h1>
 
-    <form className={classes.root} noValidate autoComplete="off">
-  <TextField id="standard-basic" label="Customer Id" variant="outlined"/>
-  <TextField id="filled-basic" label="First Name" variant="outlined"/>
-  <TextField id="outlined-basic" label="Last Name" variant="outlined" />
-  <TextField
-        id="fromdate"
-        label="From Date"
-        type="date"
-        defaultValue="2020-05-24"
-        className={classes.textField}
-        variant="outlined"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
+      <form className={classes1.root} noValidate autoComplete="off">
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>Input Details</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TextField id="standard-basic" label="Customer Id" variant="outlined" />&nbsp;
+      <TextField id="filled-basic" label="First Name" variant="outlined" />&nbsp;
+      <TextField id="outlined-basic" label="Last Name" variant="outlined" />&nbsp;
       <TextField
-        id="todate"
-        label="To Date"
-        type="date"
-        defaultValue="2020-05-24"
-        className={classes.textField}
-        variant="outlined"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-  <Button variant="contained" color="primary">
-        Filter
-      </Button>
-      <Button variant="contained" >
-        Clear
-      </Button>
-</form>
-      <form>
-        <FormControl>
-          <InputLabel>Search Customer</InputLabel>
-          <Input value={custName} onChange={handleChange} />
-        </FormControl>
-        <br></br>
-
+              id="fromdate"
+              label="From Date"
+              type="date"
+              defaultValue="2020-05-24"
+              className={classes.textField}
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />&nbsp;
+          <TextField
+              id="todate"
+              label="To Date"
+              type="date"
+              defaultValue="2020-05-24"
+              className={classes.textField}
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            /><br></br>
+            <Button variant="contained" color="primary" onClick={showTableDetails}>
+              Search
+          </Button>&nbsp;
+          <Button variant="contained" onClick={hideTableDetails} >
+              Clear
+          </Button>
+          </AccordionDetails>
+        </Accordion>
       </form>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="custom pagination table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="left">Customer Id</StyledTableCell>
-              <StyledTableCell align="left">Email&nbsp;</StyledTableCell>
-              <StyledTableCell align="left">First Name&nbsp;</StyledTableCell>
-              <StyledTableCell align="left">Last Name&nbsp;</StyledTableCell>
-              <StyledTableCell align="left">Company&nbsp;</StyledTableCell>
-              <StyledTableCell align="left">Country&nbsp;</StyledTableCell>
-              <StyledTableCell align="left">Action&nbsp;</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? displayRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : displayRows
-            ).map((row, index) => (
+      {showResults ?
+        <div>
+          <form>
+            <FormControl>
+              <InputLabel>Search Customer</InputLabel>
+              <Input value={custName} onChange={handleChange} />
+            </FormControl>
+            <br></br>
 
-              <StyledTableRow key={index} >
-                <StyledTableCell component="th" scope="row">
-                  {row.id}
-                </StyledTableCell>
-                <StyledTableCell align="left">{row.email}</StyledTableCell>
-                <StyledTableCell align="left">{row.first}</StyledTableCell>
-                <StyledTableCell align="left">{row.last}</StyledTableCell>
-                <StyledTableCell align="left">{row.company}</StyledTableCell>
-                <StyledTableCell align="left">{row.country}</StyledTableCell>
-                <StyledTableCell ><Button onClick={() => handleClick(row)} variant="outlined" color="primary">Click</Button></StyledTableCell>
-              </StyledTableRow>
+          </form>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="custom pagination table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="left">Customer Id</StyledTableCell>
+                  <StyledTableCell align="left">Email&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">First Name&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">Last Name&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">Company&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">Country&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">Action&nbsp;</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? displayRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : displayRows
+                ).map((row, index) => (
 
-            ))}
+                  <StyledTableRow key={index} >
+                    <StyledTableCell component="th" scope="row">
+                      {row.id}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">{row.email}</StyledTableCell>
+                    <StyledTableCell align="left">{row.first}</StyledTableCell>
+                    <StyledTableCell align="left">{row.last}</StyledTableCell>
+                    <StyledTableCell align="left">{row.company}</StyledTableCell>
+                    <StyledTableCell align="left">{row.country}</StyledTableCell>
+                    <StyledTableCell ><Button onClick={() => handleClick(row)} variant="outlined" color="primary">Click</Button></StyledTableCell>
+                  </StyledTableRow>
 
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                colSpan={3}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: { 'aria-label': 'rows per page' },
-                  native: true,
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right/*  */',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <Typography className={classes.typography}> Processing Customer : {anchorEl}</Typography>
-      </Popover>
+                ))}
 
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    colSpan={3}
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: { 'aria-label': 'rows per page' },
+                      native: true,
+                    }}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right/*  */',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Typography className={classes.typography}> Processing Customer : {anchorEl}</Typography>
+          </Popover>
+        </div> : <h3>No Table data found, Please provide Input details</h3>}
     </>
   );
 }
